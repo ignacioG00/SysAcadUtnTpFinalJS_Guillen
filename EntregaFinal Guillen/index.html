@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTN - Gestión de Alumnos</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-image: url("logoutn.png");
+            margin: 0;
+            padding: 20px;
+        }
+        .header-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .titulo-principal {
+            font-size: 5rem;
+            color: #4c5a88;
+            margin: 0;
+        }
+        .button {
+            background-color: #84a3c4;
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .form-container {
+            background-color: #84a3c4;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #9dc1e6;
+            font-size: 1rem;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0056b3;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .form-container button:hover {
+            background-color: #00c2fd;
+        }
+        .info-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .back-button {
+            background-color: #355d80;
+            color: white;
+            padding: 12px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+        .materias-container {
+            margin-top: 20px;
+        }
+        .materias-inscritas-container {
+            margin-top: 20px;
+        }
+        .add-button, .remove-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .add-button:hover, .remove-button:hover {
+            background-color: #0056b3;
+        }
+        .student-info-container {
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            display: center;
+        }
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1 class="titulo-principal">UTN</h1>
+    </div>
+    <div id="mainButtons">
+        <button class="button" id="btnRegistro">Registrarse</button>
+        <button class="button" id="btnLogin">Ingresar</button>
+        <button class="button" id="btnBajaAlumno">Darse de baja</button>
+    </div>
+
+    <div id="registroForm" class="form-container hidden">
+        <h2>Registrar Alumno</h2>
+        <input type="text" id="regNombre" placeholder="Nombre" required />
+        <input type="text" id="regApellido" placeholder="Apellido" required />
+        <input type="text" id="regDNI" placeholder="DNI" required />
+        <input type="email" id="regEmail" placeholder="Email" required />
+        <button id="btnSubmitRegister">Registrar</button>
+        <button class="back-button" id="btnBackFromRegistro">Volver</button>
+        <div id="regMessage"></div>
+    </div>
+
+    <div id="loginForm" class="form-container hidden">
+        <h2>Ingresar Alumno</h2>
+        <input type="text" id="loginDNI" placeholder="DNI" required />
+        <button id="btnSubmitLogin">Buscar</button>
+        <button class="back-button" id="btnBackFromLogin">Volver</button>
+        <div id="loginMessage"></div>
+        <div id="alumnoInfo" class="student-info-container hidden"></div>
+        <div id="materiasInscritasContainer" class="materias-inscritas-container hidden"></div>
+        <div id="materiasContainer" class="materias-container hidden">
+            <h3>Materias disponibles:</h3>
+            <ul id="materiasList">
+                <li>
+                    Matematicas <button class="add-button" data-materia="Matematicas">Añadir</button>
+                </li>
+                <li>
+                    Programacion <button class="add-button" data-materia="Programacion">Añadir</button>
+                </li>
+                <li>
+                    Laboratorio <button class="add-button" data-materia="Laboratorio">Añadir</button>
+                </li>
+                <li>
+                    Analisis Matematico <button class="add-button" data-materia="Analisis Matematico">Añadir</button>
+                </li>
+                <li>
+                    Bases de Datos <button class="add-button" data-materia="Bases de Datos">Añadir</button>
+                </li>
+                <li>
+                    Organizacion Contable <button class="add-button" data-materia="Organizacion Contable">Añadir</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="bajaUserForm" class="form-container hidden">
+        <h2>Darse de Baja</h2>
+        <input type="text" id="unsubDNI" placeholder="DNI" required />
+        <button id="btnSubmitUnsubscribe">Buscar</button>
+        <button class="back-button" id="btnBackFromBajaAlumno">Volver</button>
+        <div id="unsubMessage"></div>
+        <div id="unsubalumnoInfo" class="student-info-container hidden"></div>
+        <div id="unsubMateriasInscritasContainer" class="materias-inscritas-container hidden"></div>
+        <button id="btnDelete" class="delete-button hidden">Eliminar Alumno</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
